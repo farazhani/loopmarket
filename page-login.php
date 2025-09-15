@@ -9,86 +9,12 @@ Template Name: Login Page
 ob_start();
 get_header();
 
+$message_data = custom_get_login_message();
+$message      = $message_data['text'] ?? '';
+$message_type = $message_data['type'] ?? '';
+$form_mode    = $message_data['form'] ?? 'login';
 
-$message = '';
-$message_type = ''; // success یا error
 
-
-
-// ثبت‌نام
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register_user'])) {
-    $username = !empty($_POST['reg_username']) ? sanitize_text_field($_POST['reg_username']) : '';
-    $email = !empty($_POST['reg_email']) ? sanitize_email($_POST['reg_email']) : '';
-    $password = !empty($_POST['reg_password']) ? $_POST['reg_password'] : '';
-    $repassword = !empty($_POST['reg_repassword']) ? $_POST['reg_repassword'] : '';
-
-    $errors = [];
-    if (username_exists($username))
-        $errors[] = 'نام کاربری قبلاً ثبت شده.';
-    if (email_exists($email))
-        $errors[] = 'ایمیل قبلاً ثبت شده.';
-    if (strlen($password) < 8)
-        $errors[] = 'رمز عبور باید حداقل ۸ کاراکتر باشد.';
-    if ($password !== $repassword)
-        $errors[] = 'تکرار رمز عبور مطابقت ندارد.';
-
-    if (empty($errors)) {
-        $user_id = wp_create_user($username, $password, $email);
-        if (!is_wp_error($user_id)) {
-            // ورود خودکار
-            $creds = [
-                'user_login' => $username,
-                'user_password' => $password,
-                'remember' => true
-            ];
-            $user = wp_signon($creds, false);
-            if (!is_wp_error($user)) {
-                // ریدایرکت به همین صفحه برای لود نقش
-                wp_safe_redirect(get_permalink());
-                exit;
-            } else {
-                $message = '⚠️ خطا در ورود خودکار: ' . $user->get_error_message();
-                $message_type = 'error';
-            }
-        } else {
-            $message = '⚠️' . $user_id->get_error_message();
-            $message_type = 'error';
-        }
-    } else {
-        $message = '⚠️' . implode('<br>', $errors);
-        $message_type = 'error';
-    }
-}
-
-// ورود
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login_user'])) {
-    $creds = [
-        'user_login' => sanitize_text_field($_POST['login_username']),
-        'user_password' => $_POST['login_password'],
-        'remember' => true
-    ];
-    $user = wp_signon($creds, false);
-    if (is_wp_error($user)) {
-        $message = '⚠️ ورود ناموفق: ' . $user->get_error_message();
-        $message_type = 'error';
-    } else {
-        // ریدایرکت به همین صفحه برای لود نقش
-        wp_safe_redirect(get_permalink());
-        exit;
-    }
-}
-
-$form_mode = 'login'; // پیش‌فرض فرم ورود
-
-// اگر ثبت‌نام ارسال شده یا خطا داشتیم، فرم ثبت‌نام رو فعال کن
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register_user'])) {
-    $form_mode = 'register';
-}
-
-// اگر ورود ارسال شده، فرم ورود رو فعال کن
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login_user'])) {
-    $form_mode = 'login';
-}
 ?>
 
 <style>
@@ -324,3 +250,6 @@ $banners = new WP_Query($args);
 
 <?php get_footer();
 ob_end_flush(); ?>
+
+
+
