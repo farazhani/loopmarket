@@ -1,0 +1,119 @@
+/*
+Theme Name: HodCode 2
+Version: 1.2
+
+*/
+
+body {
+    background-color: #F9FAFB;
+    font-family: IRANYekanX, Tahoma;
+}
+
+.onsale {
+    display: none;
+}
+
+.attachment-woocommerce_thumbnail {
+    height: 250px;
+    object-fit: cover;
+}
+
+.main-nav>:last-child {
+    margin-right: auto;
+}
+
+.main-nav {
+    display: flex;
+    /* آیتم‌ها کنار هم */
+    justify-content: center;
+    /* وسط‌چین افقی */
+    gap: 25px;
+    /* فاصله بین آیتم‌ها */
+    list-style: none;
+    /* حذف بولت */
+    margin: 0;
+    padding: 0;
+}
+
+/* آیتم‌های منو */
+.main-nav li {
+    display: inline-block;
+}
+
+
+
+/* لینک‌ها */
+.main-nav li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.main-nav li a:hover {
+    color: var(--primary-color);
+    /* رنگ موقع هاور */
+}
+
+/* .main-nav li {
+    display: inline-block;
+    align-items: center;
+} */
+
+.custom-logo-link {
+    width: 50px;
+}
+
+.bg-blue1 {
+    background-color: #428EFF;
+}
+
+.text-blue1 {
+    color: #428EFF;
+}
+
+.text-gray {
+    color: #677F8B;
+}
+
+.bg-blue2 {
+    background-color: #7092C5;
+}
+
+.text-blue2 {
+    color: #7092C5;
+}
+
+.wpcf7-form {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+
+    input,
+    textarea {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        width: 100%;
+        min-height: 40px;
+
+    }
+
+    p {
+        padding-top: 10px;
+        line-height: 2;
+
+        label {
+            display: block;
+
+            span {
+                display: block;
+            }
+        }
+    }
+}
+
+.wpcf7-submit {
+    background-color: #7092C5;
+    color: white;
+    font-weight: 300;
+}
